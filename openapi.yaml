@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  title: Football Live Data Bridge
+  description: Read live football fixtures, fixture details, events, statistics and odds from API-Football through a protected bridge.
+  version: 1.0.0
+servers:
+  - url: https://REPLACE-WITH-YOUR-RENDER-SERVICE.onrender.com
+paths:
+  /live:
+    get:
+      operationId: getLiveFixtures
+      summary: Get all currently live fixtures
+      parameters:
+        - in: header
+          name: x-bridge-key
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Live fixtures
+  /fixtures:
+    get:
+      operationId: getFixturesByDate
+      summary: Get fixtures for a date (YYYY-MM-DD)
+      parameters:
+        - in: query
+          name: date
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: x-bridge-key
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fixtures for the requested date
+  /match/{fixture_id}:
+    get:
+      operationId: getMatchDetails
+      summary: Get fixture, statistics and events
+      parameters:
+        - in: path
+          name: fixture_id
+          required: true
+          schema:
+            type: integer
+        - in: header
+          name: x-bridge-key
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Match information
+  /odds/live:
+    get:
+      operationId: getLiveOdds
+      summary: Get live odds, optionally for one fixture
+      parameters:
+        - in: query
+          name: fixture
+          required: false
+          schema:
+            type: integer
+        - in: header
+          name: x-bridge-key
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Live odds
